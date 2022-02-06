@@ -22,6 +22,8 @@
 /app/build
 /app/libs/
 /app/build.gradle
+/app/src/test/
 /app/src/androidTest
 /app/src/main/res
 /app/src/main/AndroidManifest.xml
+/app/src/main/java/ru/skillbranch/kotlinexample/MainActivity.kt
