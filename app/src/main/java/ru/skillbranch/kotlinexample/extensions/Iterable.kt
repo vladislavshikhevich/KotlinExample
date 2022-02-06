@@ -14,3 +14,9 @@ fun <T> List<T>.dropLastUntil(predicate: (T) -> Boolean): List<T> {
         reverse()
     }
 }
+
+fun String.format(): String = if (this.startsWith('+')) {
+    replace("[^+\\d]".toRegex(), "")
+} else {
+    this
+}.also { it.trim() }
