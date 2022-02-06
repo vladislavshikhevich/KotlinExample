@@ -81,7 +81,7 @@ class User private constructor(
     ) : this(firstName, lastName, email, rawPhone, mapOf("src" to "csv")) {
         passwordInfo?.split(":")?.let {
             _salt = it.firstOrNull()
-            passwordHash = it.lastOrNull() ?: throw IllegalArgumentException("Csv file does not contain password hash")
+            passwordHash = it.lastOrNull().orEmpty()
         }
     }
 

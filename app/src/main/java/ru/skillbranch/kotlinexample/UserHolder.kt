@@ -16,19 +16,19 @@ object UserHolder {
         fullName: String,
         email: String,
         password: String
-    ): User = User.makeUser(fullName = fullName, email = email, password = password).registerUser()
+    ): User = User.makeUser(fullName = fullName, email = email, password = password).registerUser("email")
 
     fun registerUserByPhone(
         fullName: String,
         rawPhone: String
-    ): User = User.makeUser(fullName = fullName, phone = rawPhone).registerUser()
+    ): User = User.makeUser(fullName = fullName, phone = rawPhone).registerUser("phone")
 
 
-    private fun User.registerUser(): User = also {
+    private fun User.registerUser(loginTypeText: String): User = also {
         if (!map.containsKey(login)) {
             map[login] = this
         } else {
-            throw IllegalArgumentException("A user with this login already exists")
+            throw IllegalArgumentException("A user with this $loginTypeText already exists")
         }
     }
 
@@ -50,8 +50,7 @@ object UserHolder {
             with(csvUserInfo.split(";")) {
                 users.add(
                     User.makeCsvUser(
-                        fullName = getOrNull(0)?.trim()
-                            ?: throw IllegalArgumentException("Csv file does not contain name"),
+                        fullName = getOrNull(0)?.trim().orEmpty(),
                         email = getOrNull(1)?.trim()?.ifEmpty { null },
                         passwordInfo = getOrNull(2)?.trim()?.ifEmpty { null },
                         rawPhone = getOrNull(3)?.trim()?.ifEmpty { null }
