@@ -44,7 +44,7 @@ object UserHolder {
         map[login.format()]?.generateAccessCode()
     }
 
-    fun importUsers(list: List<String>): List<User> {
+    /*fun importUsers(list: List<String>): List<User> {
         val users = mutableListOf<User>()
         list.forEach { csvUserInfo ->
             with(csvUserInfo.split(";")) {
@@ -60,5 +60,21 @@ object UserHolder {
 
         }
         return users
+    }*/
+
+    fun importUsers(list: List<String>): List<User> {
+        val userList = arrayListOf<User>()
+        list.forEach {
+            val (fullName, email, access, phone) =
+                it.split(";").map { it.trim().ifBlank { null } }.subList(0, 4)
+            userList.add(User.makeCsvUser(
+                fullName = fullName!!,
+                email = email,
+                rawPhone = phone,
+                passwordInfo = access
+            )
+                .also { map[it.login] = it })
+        }
+        return userList
     }
 }
